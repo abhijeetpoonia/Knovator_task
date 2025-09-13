@@ -1,0 +1,42 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Stop existing containers
+      run: |
+        docker-compose down || echo "No containers to stop"
+        docker system prune -af || echo "Nothing to clean"
+
+    - name: Build and deploy
+      run: |
+        docker-compose build --no-cache
+        docker-compose up -d
+
+    - name: Check deployment
+      run: |
+        echo "Waiting for services to start..."
+        sleep 30
+        docker-compose ps
+        
+        echo "Testing application..."
+        curl -f http://localhost/health || echo "Health check failed"
+        curl -f http://localhost/api/health || echo "API health check failed"
+
+    - name: Show deployment info
+      run: |
+        echo "🎉 Deployment completed!"
+        echo "🌐 Application URL: http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo 'localhost')"
+        echo "📊 Container Status:"
+        docker-compose ps
