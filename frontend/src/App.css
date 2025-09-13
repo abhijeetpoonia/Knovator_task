@@ -1,0 +1,41 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  min-height: 100vh;
+}
+
+.status, .users {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #3a3f4a;
+  border-radius: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.users ul {
+  list-style: none;
+  padding: 0;
+}
+
+.users li {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #4a5568;
+  border-radius: 4px;
+}
+
+h1 {
+  color: #61dafb;
+}
+
+h2 {
+  color: #ffffff;
+  margin-bottom: 15px;
+}
