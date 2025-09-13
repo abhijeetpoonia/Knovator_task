@@ -16,19 +16,19 @@ jobs:
 
     - name: Stop existing containers
       run: |
-        docker-compose down || echo "No containers to stop"
-        docker system prune -af || echo "Nothing to clean"
+        sudo docker-compose down || echo "No containers to stop"
+        sudo docker system prune -af || echo "Nothing to clean"
 
     - name: Build and deploy
       run: |
-        docker-compose build --no-cache
-        docker-compose up -d
+        sudo docker-compose build --no-cache
+        sudo docker-compose up -d
 
     - name: Check deployment
       run: |
         echo "Waiting for services to start..."
         sleep 30
-        docker-compose ps
+        sudo docker-compose ps
         
         echo "Testing application..."
         curl -f http://localhost/health || echo "Health check failed"
